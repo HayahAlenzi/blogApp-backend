@@ -3,6 +3,6 @@ const signUpRoute = express.Router();
 
 const { addUser } = require("../controller/controlSignUp");
 
-signUpRoute.post("/signUp", addUser);
+signUpRoute.post("/signUp",addUser);
 
 module.exports = signUpRoute;

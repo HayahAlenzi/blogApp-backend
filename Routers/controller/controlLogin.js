@@ -27,10 +27,10 @@ const login = async (req, res) => {
         
         // res.status(200).json(`Hello admain! ${user.name}`);
       } else {
-        res.status(403).json("wrong PassWord!");
+        res.status(403).json("Wrong Password!");
       }
     } else {
-      res.status(404).json("wrong Email!");
+      res.status(404).json("Email is incorrect! Try again");
     }
   } catch (error) {
     res.send(error);

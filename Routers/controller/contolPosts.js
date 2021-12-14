@@ -5,7 +5,8 @@ const userModel=require("../../DB/Models/userModel")
 
 
 const getDataPosts= (req, res) => {
-  postModel.find({})
+
+  postModel.find({}).populate("userId")
       .then((result) => {
         res.status(200).json(result);
       })
@@ -13,18 +14,30 @@ const getDataPosts= (req, res) => {
         res.send(err);
       });
   }
+  
+const getPostOneUser=async(req,res)=>{
+  const userId = req.token.userId;
 
+  
+  try {
+    const blogs = await postModel.find({userId}).populate("userId")
+   res.status(200).json(blogs)
+} catch (error){
+   res.send(error)
+}
+}
 
 
 
 const postDataPosts =async(req,res)=>{
     const { title,des,date,img} = req.body; 
     const userId = req.token.userId;
-
-      const newPost = new postModel( { title,des,date,img});
+      const newPost = new postModel( { title,des,date,img,userId});
+      // const newlistPost= new userModel.findOneAndUpdate({_id:userId},{ $push:{listPosts:{ title,des,date,img}}},{new:true}).populate("listPosts")
     
       try {
         const response = await newPost.save();
+        // const response2=await newlistPost.save()
         const post= await postModel.find({}).populate("userId")
         res.status(201).json(post);
       } catch (error) {
@@ -106,5 +119,5 @@ const postDataPosts =async(req,res)=>{
     getDataPosts,
     postDataPosts,
     deletePost,
-   
+    getPostOneUser,
   }

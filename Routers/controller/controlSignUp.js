@@ -7,7 +7,7 @@ const addUser = async(req, res) => {
   let { name, email, password } = req.body;
   try {
       password = await bcrypt.hash(password,10);
-      const newUser = new userModel({ name, email, password, cart:[] });
+      const newUser = new userModel({ name, email, password,listPosts:[] ,like:[] });
       const response = await newUser.save();
       res.status(201).json(response);
   } catch (error) {

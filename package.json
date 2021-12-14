@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npm un dev",
+    "start": "npm run dev",
     "dev": "nodemon app.js"
   },
   "keywords": [],
@@ -15,7 +15,12 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.14"
+  },
+  "devDependencies": {
+    "concurrently": "^6.4.0",
+    "nodemon": "^2.0.15"
   }
 }

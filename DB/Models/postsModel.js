@@ -7,8 +7,8 @@ const postModel = new mongoose.Schema({
   date:{type:Date , default: Date.now },
   img: { type: String, required: true },
   flg:{type:Boolean},
-
-  userId:{ type: mongoose.Schema.Types.ObjectId, ref: 'postModel'  }
+  userId:{ type: mongoose.Schema.Types.ObjectId, ref: 'userModel'  }
+  
 });
 
 
