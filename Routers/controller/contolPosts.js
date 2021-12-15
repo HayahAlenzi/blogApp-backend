@@ -16,9 +16,9 @@ const getDataPosts= (req, res) => {
   }
   
 const getPostOneUser=async(req,res)=>{
-  const userId = req.token.userId;
+  // const userId = req.token.userId;
+   const userId = req.params.id;
 
-  
   try {
     const blogs = await postModel.find({userId}).populate("userId")
    res.status(200).json(blogs)

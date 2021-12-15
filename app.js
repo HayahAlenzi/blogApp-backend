@@ -25,10 +25,11 @@ app.use(cors());
 
 
 ///////////////////
-
+const followRoute=require("./Routers/route/RouteFollow")
 const RoutePosts = require("./Routers/route/RoutePosts");
 const signUpRoute = require("./Routers/route/RouteSignUp");
 const loginRoute  = require("./Routers/route/RouteLogin")
+app.use(followRoute)
 app.use(RoutePosts);
 app.use(signUpRoute);
 app.use(loginRoute);
