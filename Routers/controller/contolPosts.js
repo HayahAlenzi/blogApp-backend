@@ -6,7 +6,7 @@ const userModel=require("../../DB/Models/userModel")
 
 const getDataPosts= (req, res) => {
 
-  postModel.find({}).populate("userId")
+  postModel.find({}).populate("userId").sort('-date')
       .then((result) => {
         res.status(200).json(result);
       })
@@ -26,6 +26,7 @@ const getPostOneUser=async(req,res)=>{
    res.send(error)
 }
 }
+
 
 
 
