@@ -26,6 +26,23 @@ const getPostOneUser=async(req,res)=>{
    res.send(error)
 }
 }
+const getUserDetail= async(req,res)=>{
+ 
+  const userId = req.token.userId;
+
+
+  try {
+    const userDetail =await postModel.find({userId}).populate("userId")
+    console.log(userDetail);
+    //هنا ناقص الوصول لسكيما الفولو
+  res.status(200).json(userDetail)
+
+
+  } catch (error) {
+  res.send(error);
+    
+  }
+}
 
 
 
@@ -121,4 +138,5 @@ const postDataPosts =async(req,res)=>{
     postDataPosts,
     deletePost,
     getPostOneUser,
+    getUserDetail
   }

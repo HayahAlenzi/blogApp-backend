@@ -30,6 +30,7 @@ const addFollow = async (req, res) => {
 
   try {
       const Follow = await followModel.findOne({userId:userId})
+      console.log(Follow,"Followwwwww");
             const makeFollowimg = await followModel.findOneAndUpdate({userId:userId},
                 {$push :{following :otherUser }}, {new:true} )
 
@@ -84,22 +85,33 @@ try {
 }}
 
 
-const getUserDetail= async(req,res)=>{
+// const getUserDetail= async(req,res)=>{
+ 
+//   const userId = req.token.userId;
+
+
+//   try {
+//     const userDetail =await postModel.find({userId})
+//     console.log(userDetail);
+//   res.status(200).json(userDetail)
+
+
+//   } catch (error) {
+//   res.send(error);
+    
+//   }
+// }
+
+const findFollowArr= async(req,res)=>{
+  // const otherUser = req.params.id;
   const userId = req.token.userId;
 
-  try {
-  //   const userDetail= await userModel.find({userId})
-  // res.status(200).json(userDetail)
-  res.status(200).json("hi")
+  
+  const Follow = await followModel.findOne({userId:userId}).populate("userId")
+  // if(Follow)
+  res.status(200).json(Follow)
 
-
-  } catch (error) {
-  res.send(error);
-    
-  }
 }
 
 
-
-
-module.exports = { addFollow ,getPostsofFollowing ,unFollow ,getUserDetail};
+module.exports = { addFollow ,getPostsofFollowing ,unFollow,findFollowArr };
