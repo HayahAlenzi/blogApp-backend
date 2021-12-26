@@ -7,7 +7,7 @@ const { authentication } = require("../middelwear/authentication");
 postModel.get("/userPosts/:id",getPostOneUser)
 postModel.get("/dataPosts",getDataPosts);
 postModel.post("/dataPosts", authentication,postDataPosts);
-postModel.delete("/deletOnePost/:id", authentication,deletePost);
+postModel.delete("/post/:id", authentication,deletePost);
 postModel.get("/getUserDetail",authentication, getUserDetail);
 
 // postModel.put("/oneEvent",authentication,updetDataPoste)

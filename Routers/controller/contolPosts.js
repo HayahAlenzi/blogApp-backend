@@ -86,15 +86,12 @@ const postDataPosts =async(req,res)=>{
       const userId = req.token.userId;
       
       try {
-        // const deleteOne = await userModel.findOneAndDelete({ _id: id });
-        // const events = await userModel.find({});
         
         
-        const deletOnePost= await userModel.findOneAndUpdate({ _id: userId },{
-          $pull:{listPosts:id}
-        },{new:true}).populate("listPosts")
-        
-        res.status(201).json(deletOnePost);
+        const deletOnePost= await postModel.findOneAndDelete({ _id: id })
+        const postsAfterdel=await postModel.find({userId}).populate("userId")
+        console.log(postsAfterdel);
+        res.status(201).json(postsAfterdel);
       } catch (error) {
         res.send(error);
       }
