@@ -20,7 +20,7 @@ const getPostOneUser=async(req,res)=>{
    const userId = req.params.id;
 
   try {
-    const blogs = await postModel.find({userId}).populate("userId")
+    const blogs = await postModel.find({userId}).populate("userId").sort('-date')
    res.status(200).json(blogs)
 } catch (error){
    res.send(error)
@@ -29,15 +29,11 @@ const getPostOneUser=async(req,res)=>{
 const getUserDetail= async(req,res)=>{
  
   const userId = req.token.userId;
-
-
   try {
-    const userDetail =await postModel.find({userId}).populate("userId")
+    const userDetail =await postModel.find({userId}).populate("userId").sort('-date')
     console.log(userDetail);
     //هنا ناقص الوصول لسكيما الفولو
   res.status(200).json(userDetail)
-
-
   } catch (error) {
   res.send(error);
     
@@ -50,8 +46,8 @@ const getUserDetail= async(req,res)=>{
 const postDataPosts =async(req,res)=>{
     const { title,des,date,img} = req.body; 
     const userId = req.token.userId;
-      const newPost = new postModel( { title,des,date,img,userId});
-      // const newlistPost= new userModel.findOneAndUpdate({_id:userId},{ $push:{listPosts:{ title,des,date,img}}},{new:true}).populate("listPosts")
+      const newPost = new postModel( { title,des,date,img,userId ,Comment:[]});
+
     
       try {
         const response = await newPost.save();
@@ -89,7 +85,7 @@ const postDataPosts =async(req,res)=>{
         
         
         const deletOnePost= await postModel.findOneAndDelete({ _id: id })
-        const postsAfterdel=await postModel.find({userId}).populate("userId")
+        const postsAfterdel=await postModel.find({userId}).populate("userId").sort('-date')
         console.log(postsAfterdel);
         res.status(201).json(postsAfterdel);
       } catch (error) {
@@ -112,22 +108,53 @@ const postDataPosts =async(req,res)=>{
         //   } catch (error) {
           //   }
           // };
+        
+        
+        
+  const addLike =async(req,res)=>{
+     const idPost = req.params.id;
+     const userId = req.token.userId;
+            try {
+              const findUser= await userModel.findOneAndUpdate({_id:userId},
+                { $push:{like:idPost}},{new:true}).populate("like")
+              res.status(201).json(findUser);
+        
+            } catch (error) {
+              res.send(error);
+              
+            }
+            }
+    
+  const disLike=async(req,res)=>{
+    const idPost = req.params.id;
+    const userId = req.token.userId;
+    console.log("dislikeeeeeeeeeeeeeeeeeeeee");
+try {
+  
+    const findUser= await userModel.findOneAndUpdate({_id:userId},
+       {$pull: {like:idPost}},{new:true}).populate("like")
+              res.status(201).json(findUser);
+
+} catch (error) {
+  res.send(error);
+  
+}
+
+
+  }
           
+  const getLike=async(req,res)=>{
+              const userId = req.token.userId;
+              console.log(userId);
+        try {
+          const findLike= await userModel.findOne({_id:userId}).select("like").populate("like")
+          res.status(200).json(findLike.like)
           
-          //     const getcart=async(req,res)=>{
-          //       const userId = req.token.userId;
-          //       console.log(userId);
-          // try {
-          //   const findCart= await userModel.find({_id:userId}).select("cart").populate("cart")
-          //   res.status(200).json(findCart)
-            
-          // } catch (error) {
-          //   res.send(error);
-            
-          // }
-          //     }
+        } catch (error) {
+          res.send(error);
           
-          
+        }
+            }
 
   
   module.exports={
@@ -135,5 +162,8 @@ const postDataPosts =async(req,res)=>{
     postDataPosts,
     deletePost,
     getPostOneUser,
-    getUserDetail
+    getUserDetail,
+    addLike,
+    disLike,
+    getLike
   }
