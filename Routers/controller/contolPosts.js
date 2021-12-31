@@ -15,6 +15,19 @@ const getDataPosts= (req, res) => {
       });
   }
   
+  const onePost=async(req,res) =>{
+    const idPost = req.params.id;
+    try {
+      const Posts =await postModel.find({}).populate("userId")
+      const foundOnePost= Posts.find(ele=>ele._id==idPost)
+     
+   res.status(200).json(foundOnePost)
+
+    } catch (error) {
+   res.send(error)
+      
+    }
+  }
 const getPostOneUser=async(req,res)=>{
   // const userId = req.token.userId;
    const userId = req.params.id;
@@ -159,6 +172,7 @@ try {
   
   module.exports={
     getDataPosts,
+    onePost,
     postDataPosts,
     deletePost,
     getPostOneUser,

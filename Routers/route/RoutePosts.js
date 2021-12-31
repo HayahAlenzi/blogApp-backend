@@ -2,10 +2,12 @@ const express = require("express");
 const postModel = express.Router();
 
 const { getDataPosts, postDataPosts ,deletePost, getPostOneUser,getUserDetail, addLike,disLike,
-    getLike,updetDataPoste} = require("../controller/contolPosts");
+    getLike,onePost,updetDataPoste} = require("../controller/contolPosts");
 const { authentication } = require("../middelwear/authentication");
 
 postModel.get("/userPosts/:id",getPostOneUser)
+postModel.get("/onepost/:id",onePost)
+
 postModel.get("/dataPosts",getDataPosts);
 postModel.post("/dataPosts", authentication,postDataPosts);
 postModel.delete("/post/:id", authentication,deletePost);

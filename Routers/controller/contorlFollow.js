@@ -111,7 +111,7 @@ const findFollowArr= async(req,res)=>{
   const userId = req.token.userId;
 
   
-  const Follow = await followModel.findOne({userId:userId}).populate("userId")
+  const Follow = await followModel.findOne({userId:userId}).populate("userId").populate("followers").populate("following")
   // if(Follow)
   res.status(200).json(Follow)
 

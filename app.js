@@ -1,28 +1,11 @@
 require("./DB/db");
 const express = require("express");
-// const fileUpload=require("express-fileupload")
+
 var cors = require('cors')
 const app = express();
 
-// app.use(fileUpload)
 app.use(express.json());
 app.use(cors());
-
-// app.post("/uplod", (req ,res)=>{
-// if(req.files===null){
-//   return res.status(400).json({msg:'no file uploaded'})
-// }
-
-// const file =req.files.file
-// file.mv(`${__dirname}/client/public/uploads/${file.name}`)
-// if(err){
-//   console.error(err)
-//   return res.status(500).send(err)
-// }
-
-// res.json({fileName:file.name,filePath:`/uploads/${file.name}`})
-// })
-
 
 ///////////////////
 const followRoute=require("./Routers/route/RouteFollow")
@@ -33,14 +16,48 @@ app.use(followRoute)
 app.use(RoutePosts);
 app.use(signUpRoute);
 app.use(loginRoute);
-// updateActive
+// ////////////
+
+
+
+/////
+
+
+const { Server } = require("socket.io");
+const Port = 5000;
+
+
+const server = app.listen(Port, () => {
+  console.log("SERVER IS RUN!");
+});
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User Connected: ${socket.id}`);
+
+  socket.on("join_room", (data) => {
+    socket.join(data);
+    console.log(`User with ID: ${socket.id} joined room: ${data}`);
+  });
+
+  socket.on("send_message", (data) => {
+    console.log(data,"data of send_message ");
+    socket.to(data.room).emit("receive_message", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("User Disconnected", socket.id);
+  });
+});
 
 
 
 
 
 ///////////////////
-const Port = 5000;
-app.listen(Port, () => {
-  console.log("SERVER IS RUN!");
-});
