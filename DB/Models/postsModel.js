@@ -7,8 +7,10 @@ const postModel = new mongoose.Schema({
   des: { type: String,  required: true  },
   date:{type:Date , default: Date.now },
   img: { type: String, required: true },
+  type: { type: String  },
+
   flg:{type:Boolean},
-  // Comment:[],
+  Comment:[{userId:{type:String},userName:{type:String},commet:{type:String}}],
   userId:{ type: mongoose.Schema.Types.ObjectId, ref: 'userModel'  }
   
 });

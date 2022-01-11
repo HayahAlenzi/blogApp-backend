@@ -17,7 +17,7 @@ const addUser = async(req, res) => {
         following:[]})
         const response2  = await newFollower.save()
 
-
+      
 
       res.status(201).json({response1,response2});
   } catch (error) {

@@ -1,13 +1,13 @@
-const { type } = require("express/lib/response");
 const mongoose = require("mongoose");
 
 const ChatModel = new mongoose.Schema({  
-
-    userId :{   type: mongoose.Schema.Types.ObjectId, ref: 'userModel',required:true  }, 
-    chatArr:[{  sender: { type:mongoose.Schema.Types.ObjectId, ref:'userModel', required:true },
-                room  : { type:String,unique:true } ,
-                msg   : { type:String,required:true},
-                time  : { type:Date , default: Date.now() }}]
+    room   : { type:String } ,
+    chatArr:[{ 
+        //  recipient: { type:mongoose.Schema.Types.ObjectId, ref:'userModel', },
+                userName :{type:String},
+                userId   : {type: mongoose.Schema.Types.ObjectId, ref: 'userModel',required:true  }, 
+                message: { type:String,required:true},
+                time   : { type:String  }}]
 
 });
 

@@ -2,7 +2,7 @@ const express = require("express");
 const postModel = express.Router();
 
 const { getDataPosts, postDataPosts ,deletePost, getPostOneUser,getUserDetail, addLike,disLike,
-    getLike,onePost,updetDataPoste} = require("../controller/contolPosts");
+    getLike,onePost,commet,getcommet} = require("../controller/contolPosts");
 const { authentication } = require("../middelwear/authentication");
 
 postModel.get("/userPosts/:id",getPostOneUser)
@@ -14,8 +14,11 @@ postModel.delete("/post/:id", authentication,deletePost);
 postModel.get("/getUserDetail",authentication, getUserDetail);
 postModel.post("/likedPosts/:id",authentication, addLike);
 postModel.put("/dislike/:id",authentication, disLike);
-
 postModel.get("/likedPosts", authentication,getLike);
+postModel.post("/commet/:id",authentication,commet)
+postModel.get("/commet/:id",getcommet)
+
+
 
 // postModel.put("/oneEvent",authentication,updetDataPoste)
 // postModel.get("/oneEvent",authentication,getcart)

@@ -28,6 +28,7 @@ const getDataPosts= (req, res) => {
       
     }
   }
+  
 const getPostOneUser=async(req,res)=>{
   // const userId = req.token.userId;
    const userId = req.params.id;
@@ -73,23 +74,6 @@ const postDataPosts =async(req,res)=>{
       
     }
 
-
-
-    // const postOneActive =async(req,res)=>{
-    //   const {walaa}=req.body
-    //   const userId = req.token.userId;
-    //   // console.log(userId);
-    //   // console.log(walaa,"aaaaa");
-    // try {
-    //   const findUser= await userModel.findOneAndUpdate({_id:userId},{ $push:{cart:walaa}},{new:true}).populate("cart")
-  
-    //   res.status(201).json(findUser);
-    // } catch (error) {
-      
-    //   res.send(error);
-      
-    // }
-    // }
     const deletePost=async (req, res) => {
       const id = req.params.id;
       const userId = req.token.userId;
@@ -169,6 +153,37 @@ try {
         }
             }
 
+  const commet=async(req,res)=>{
+    const idPost = req.params.id;
+    const userId = req.token.userId;
+    const {commet,userName}=req.body
+    console.log(userName,"llllll");
+    const obj={commet,userName,userId}
+    console.log(obj,"ooooo")
+    console.log(idPost,"ppppppp");
+    try {
+      const findPost= await postModel.findOneAndUpdate({_id:idPost},
+        { $push:{Comment:obj}},{new:true}).populate("Comment")
+      // const all=await postModel
+      res.status(201).json(findPost);
+
+    } catch (error) {
+      res.send(error);
+      
+    }
+    }
+  
+    const getcommet=async(req,res)=>{
+    const idPost = req.params.id;
+try {
+  const foundcommet=await postModel.findOne({_id:idPost}).select("Comment-_id").populate("Comment")
+  res.status(200).json(foundcommet)
+} catch (error) {
+  res.send(error);
+  
+}
+    }
+
   
   module.exports={
     getDataPosts,
@@ -179,5 +194,7 @@ try {
     getUserDetail,
     addLike,
     disLike,
-    getLike
+    getLike,
+    commet,
+    getcommet
   }
