@@ -55,12 +55,27 @@ const getUserDetail= async(req,res)=>{
 }
 
 
+const getUserinfo= async(req,res)=>{
+ 
+  const userId = req.token.userId;
+  try {
+    const userDetail =await userModel.findOne({_id:userId})
+    // const chatList=await userModel.findOne({_id:userId}).populate("chatList")
+    // console.log(chatList,"jjjjjjjj");
+    //هنا ناقص الوصول لسكيما الفولو
+  res.status(200).json(userDetail)
+  } catch (error) {
+  res.send(error);
+    
+  }
+}
+
 
 
 const postDataPosts =async(req,res)=>{
-    const { title,des,date,img} = req.body; 
+    const { title,des,date,img,type} = req.body; 
     const userId = req.token.userId;
-      const newPost = new postModel( { title,des,date,img,userId ,Comment:[]});
+      const newPost = new postModel( { title,des,date,img,userId,type ,Comment:[]});
 
     
       try {
@@ -196,5 +211,6 @@ try {
     disLike,
     getLike,
     commet,
-    getcommet
+    getcommet,
+    getUserinfo
   }

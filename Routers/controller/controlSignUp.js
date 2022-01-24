@@ -8,7 +8,7 @@ const addUser = async(req, res) => {
   let { name, email, password } = req.body;
   try {
       password = await bcrypt.hash(password,10);
-      const newUser = new userModel({ name, email, password,like:[] });
+      const newUser = new userModel({ name, email, password,like:[],chatList:[]});
       const response1 = await newUser.save();
 
 

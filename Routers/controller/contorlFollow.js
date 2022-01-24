@@ -118,7 +118,7 @@ const findFollowArr = async (req, res) => {
 const getChat= async(req,res)=>{
   console.log("iiiiiiiiiiiiiiiiiiii");
   const room = req.params.id;
-console.log(room,"ooooo");
+// console.log(room,"ooooo");
 try {
   const getMag= await ChatModel.findOne({room:room})
   res.status(200).json(getMag);
@@ -131,19 +131,34 @@ try {
 
 const saveChat = async (req, res) => {
   const userId = req.token.userId;
-  // const room=req.body
-  const { room, message, userName,recipient ,time } = req.body;
-  console.log(recipient,"recipient");
+  const { room, message, userName,recipientId,recipientName ,time } = req.body;
+  console.log(recipientId,"recipientiiii");
+  // console.log(recipientName,"recipientnnnnn");
+
+  const objchatList={recipientId,recipientName}
   const objChat = { userId, message,userName,time };
 
   try {
+    
+    const x=await userModel.findOne({_id:userId}).select("chatList")
+    console.log(x.chatList,"xxxxxxx");
+    const result=x.chatList.filter((elem)=>{
+      return recipientId==elem
+    })
+console.log(result,"rrrrrrrr");
+
+if(result.length==0){
+  const foundRecipient=await userModel.findOneAndUpdate({_id:userId}, { $push: { chatList:objchatList  } })
+
+
+}
+ 
     const foundRoom = await ChatModel.findOne({ room: room });
-    console.log(foundRoom, "foundRoom");
 
     if (foundRoom == null) {
-      console.log("it's in");
+      // console.log("it's in");
       const newChat = new ChatModel({ room: room, chatArr: [objChat] });
-      console.log(newChat, "newChat");
+      // console.log(newChat, "newChat");
       const response = await newChat.save();
       res.status(200).json(response);
     } else {
